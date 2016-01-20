@@ -1,0 +1,12 @@
+<h2>Feeds</h2>
+<%= form_for :rss_feed, :url => {:action => "create"} do |f| %>
+  <p>
+    <%= f.label 'URL' %>
+    <%= f.text_field 'url' %>
+  </p>
+  <p>
+    <%= f.submit %>
+  </p>
+<% end %>
+
+<%= link_to 'back', rss_feeds_path,{:style=>'color:blue'} %>

@@ -1,0 +1,14 @@
+<% @rss_feeds.each do |feed| %>
+  <div class="feedDiv">
+    <h2 class="feedHeading">
+      <%= link_to feed.url do%><%= feed.title %><% end %>
+    </h2>
+  <% feed.entries.each do |entry| %>
+    <div class="feedEntry">
+      <h3 ><%=link_to entry.title, entry.url,{:style=>"color:black"} %></h3>
+      <p><%= entry.published %></p>
+      <p><%=raw entry.summary %></p>
+    </div>
+  <% end %>
+</div>
+<% end %>

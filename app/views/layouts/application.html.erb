@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>PracticeApp2</title>
+  <%= stylesheet_link_tag    "application", :media => "all" %>
+  <%= javascript_include_tag "application" %>
+  <%= csrf_meta_tags %>
+</head>
+<body>
+
+<% if @session %>
+  <div class="header">
+    <div style="float:left">Logged in as: <%= @user.email %></div>
+    <div style="float:right"><%= button_to "Sign out", destroy_user_session_path, :method => :delete %></div>
+  </div>
+  <nav class="nav">
+    <span  class="appName">FeedZone</span>
+    <ul class="navul">
+      <%= link_to home_index_path do %><li>Home</li><% end  %>
+      <%= link_to rss_feeds_path do %><li>My Feeds</li><% end %>
+      <a href="#" style="width:12%"><li onclick="showSubMenu(manageFeedsSub)">Manage Feeds  ></li></a>
+      <div id="manageFeedsSub" style="display:none;float:left">
+        <%= link_to new_rss_feed_path do %><li>Add Feeds</li><% end %>
+      </div>
+    </ul>
+
+
+
+  </nav>
+
+<% end %>
+
+<p class="notice"><%= notice %></p>
+<p class="alert"><%= alert %></p>
+
+<%= yield %>
+
+</body>
+</html>
