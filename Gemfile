@@ -25,6 +25,7 @@ end
   group :development do
   gem 'better_errors'
   gem 'binding_of_caller'
+  gem 'sunspot_solr'
 end
 
 gem 'jquery-rails'
@@ -49,3 +50,5 @@ gem 'devise'
 
 #To use feeder
 gem 'feedjira'
+
+gem 'sunspot_rails'

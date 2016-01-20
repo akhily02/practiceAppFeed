@@ -1,2 +1,16 @@
 <h2>Hello World </h2>
 <%= link_to 'Feeds', rss_feeds_path %>
+<% @rss_feeds.each do |feed| %>
+  <div class="feedDiv" style="float:left;width:45%;clear:none">
+    <h2 class="feedHeading">
+      <%= link_to feed.url do%><%= feed.title %><% end %>
+    </h2>
+
+  <div class="feedEntry" style="width:90%">
+    <h3 ><%=link_to feed.entries.first.title, feed.entries.first.url,{:style=>"color:black"} %></h3>
+    <p><%= feed.entries.first.published %></p>
+    <p><%=raw feed.entries.first.summary %></p>
+  </div>
+
+</div>
+<% end %>

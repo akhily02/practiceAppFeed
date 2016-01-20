@@ -18,6 +18,21 @@ class RssFeedsController < ApplicationController
     @rss_feeds = feeds
 
 
+    #Searching a feed by it's url
+    searchfeeds = Array.new
+    @search = RssFeed.search do
+      fulltext params[:search]
+    end
+    @searched_rss_feeds = @search.results
+    @searched_rss_feeds.each do |sfeed|
+      url = sfeed.url
+      parsedFeed = Feedjira::Feed.fetch_and_parse url # parse the xml
+      searchfeeds.push(parsedFeed)  # push the parsed xml in the searchfeeds array
+    end
+    @searched_rss_feeds = searchfeeds
+
+
+
 
   end
 
