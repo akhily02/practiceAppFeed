@@ -1,23 +1,27 @@
 <%= form_tag rss_feeds_path, :method => :get do %>
   <p>
-    <%= text_field_tag :search, params[:search] %>
+    <%= text_field_tag :search, params[:search], {:placeholder=>'Search for url'} %>
     <%= submit_tag "Search", :name => nil %>
 <% end %>
 
 <%if @searched_rss_feeds.present? %>
   <h1>Search Results:</h1>
+  <ol>
   <% @searched_rss_feeds.each do |sfeed|%>
-    <h2 class="feedHeading">
+    <li class="feedHeading">
       <%= link_to sfeed.url do%><%= sfeed.title %><% end %>
-    </h2>
+    </li>
   <% end %>
+</ol>
   <hr>
 <% end %>
 
-<% @rss_feeds.each do |feed| %>
+<% @rss_feeds.each_with_index do |feed, index| %>
   <div class="feedDiv">
     <h2 class="feedHeading">
-      <%= link_to feed.url do%><%= feed.title %><% end %>
+      <%= link_to feed.url do%>
+        <%= feed.title %><small> url: <%= @feeds_url[index] %></small>
+      <% end %>
     </h2>
   <% feed.entries.each do |entry| %>
     <div class="feedEntry">

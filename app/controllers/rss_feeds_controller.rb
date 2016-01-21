@@ -7,29 +7,34 @@ class RssFeedsController < ApplicationController
     @user = current_user
 
     feeds = Array.new
+    urlArray = Array.new
+
     @user_feed = UserFeed.where(user_id: current_user.id) #get the rss feedID from the table user_feed for the current user ID
 
     @user_feed.each do |feed|
       url = RssFeed.where(id: feed.rss_feed_id).first.url #get the url of the feed from the rss_feed table where the feedID matches
-      #xml = Faraday.get(url).body
+      urlArray.push(url)
       parsedFeed = Feedjira::Feed.fetch_and_parse url # parse the xml
       feeds.push(parsedFeed)  # push the parsed xml in the feeds array
     end
     @rss_feeds = feeds
-
-
+    @feeds_url = urlArray
     #Searching a feed by it's url
-    searchfeeds = Array.new
-    @search = RssFeed.search do
-      fulltext params[:search]
+    if params[:search]==nil
+      @searched_rss_feeds = []
+    else
+      searchfeeds = Array.new
+      @search = RssFeed.search do
+        fulltext params[:search]
+      end
+      @searched_rss_feeds = @search.results
+      @searched_rss_feeds.each do |sfeed|
+        url = sfeed.url
+        parsedFeed = Feedjira::Feed.fetch_and_parse url # parse the xml
+        searchfeeds.push(parsedFeed)  # push the parsed xml in the searchfeeds array
+      end
+      @searched_rss_feeds = searchfeeds
     end
-    @searched_rss_feeds = @search.results
-    @searched_rss_feeds.each do |sfeed|
-      url = sfeed.url
-      parsedFeed = Feedjira::Feed.fetch_and_parse url # parse the xml
-      searchfeeds.push(parsedFeed)  # push the parsed xml in the searchfeeds array
-    end
-    @searched_rss_feeds = searchfeeds
 
 
 
